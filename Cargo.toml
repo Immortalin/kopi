@@ -1,0 +1,24 @@
+[package]
+name = "kopi"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+winrt-notification = "0.5.1"
+
+[dependencies.windows]
+version = "0.30"
+features = [
+    "alloc",
+    "Win32_Foundation",
+    "Win32_System_Power",
+    "Win32_System_Registry",
+    "Win32_System_Com",
+    "Win32_System_SystemServices",
+    "Win32_Foundation",
+    # "Foundation",
+    # "UI_Xaml_Controls",
+    "Win32_UI_WindowsAndMessaging",
+]
