@@ -7,6 +7,8 @@ edition = "2021"
 
 [dependencies]
 winrt-notification = "0.5.1"
+eframe = "0.16.0"                                                 # Gives us egui, epi and web+native backends
+serde = { version = "1", features = ["derive"], optional = true }
 
 [dependencies.windows]
 version = "0.30"
@@ -21,4 +23,5 @@ features = [
     # "Foundation",
     # "UI_Xaml_Controls",
     "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Shell",
 ]

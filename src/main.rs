@@ -7,9 +7,11 @@ use windows::Win32::System::Power::{
 };
 use windows::Win32::System::Registry::HKEY;
 use windows::Win32::System::SystemServices::GUID_SLEEP_SUBGROUP;
+use windows::Win32::UI::Shell::{Shell_NotifyIconW, NOTIFYICONDATAW};
 use windows::Win32::UI::WindowsAndMessaging::{MessageBoxA, MB_OK};
 // use windows::UI::Xaml::Controls::ContentDialog;
 use winrt_notification::{Duration, Sound, Toast};
+mod gui;
 
 fn main() {
     let mut power_scheme: *mut windows::core::GUID = ptr::null_mut();
@@ -19,10 +21,14 @@ fn main() {
     let new_sleep_timeout: u32;
     // STANDBYIDLE GUID
     const STANDBYIDLE: &str = "29f6c1db-86da-48c5-9fdb-f2b67b1f44da";
+    const NIMADD: u32 = 0x00000000;
     // let mut current_power_scheme: String;
 
     // let mut power_description: *mut u8 = ptr::null_mut();
     unsafe {
+        // See https://github.com/ryancerium/grist/blob/master/src/ui.rs for more details
+        let result = Shell_NotifyIconW(NIMADD, &NOTIFYICONDATAW::default());
+        println!("{:?}", result);
         PowerGetActiveScheme(HKEY::default(), power_scheme_ptr);
         // current_power_scheme = format!("{:x?}", *power_scheme).to_ascii_lowercase();
         PowerReadACValueIndex(
@@ -76,6 +82,9 @@ fn main() {
 
         Ok(_) => (),
     }
+    let app = gui::TemplateApp::default();
+    let native_options = eframe::NativeOptions::default();
+    eframe::run_native(Box::new(app), native_options);
 }
 
 fn toast_notification_failure<T: Display>(e: T) {
